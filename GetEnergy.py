@@ -1,16 +1,27 @@
 import json
 import requests
+from abc import ABC, abstractmethod
 
-def GetEnergyCharts():
-    url = "https://api.energy-charts.info/price"
-    return __GetValues__(url)
+class Energy(ABC):
+    def __init__(self):
+        pass
+    # def getPrice(self):
+    def _GetResponse_(self, url):
+        return requests.get(url)
+    @abstractmethod
+    def getPrice(self):
+        pass
+
+class EnergyCharts(Energy):
+    # class for Energy Charts
+    def __init__(self):
+        super().__init__()
+        self.url = "https://api.energy-charts.info/"
     
+    def getPrice(self):
+        r = self._GetResponse_(self.url + "price")
+        y = json.loads(r.text)
+        return y["price"]
 
 
-def __GetValues__(url):
-    r = requests.get(url)
-    y = json.loads(r.text)
 
-
-   
-    return y
