@@ -10,8 +10,8 @@ print(datetime.datetime.now().hour)
 
 currentPrice = x[datetime.datetime.now().hour - 1]
 
-if (currentPrice < 150):
-    print("Der Strom ist unter 150 EUR/MWh")
+if (currentPrice < 147):
+    print("Der Strom ist unter 147 EUR/MWh")
     exit(1)
 
 count = 0
