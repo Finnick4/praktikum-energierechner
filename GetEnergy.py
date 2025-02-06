@@ -10,7 +10,4 @@ def GetEnergyCharts():
 def __GetValues__(url):
     r = requests.get(url)
     y = json.loads(r.text)
-
-
-   
     return y
