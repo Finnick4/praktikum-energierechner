@@ -1,15 +1,22 @@
 import json
 import requests
 from abc import ABC, abstractmethod
+from Exceptions import BadResponse, DiffrentUnit
 
 class Energy(ABC):
     def __init__(self):
         pass
-    # def getPrice(self):
+    
     def _GetResponse_(self, url):
-        return requests.get(url)
+        r = requests.get(url)
+        if (r.status_code != 200):
+            raise BadResponse(r.status_code)
+        return r
+            
+
+    
     @abstractmethod
-    def getPrice(self):
+    def getPriceKWH(self):
         pass
 
 class EnergyCharts(Energy):
@@ -19,9 +26,33 @@ class EnergyCharts(Energy):
         self.url = "https://api.energy-charts.info/"
     
     def getPrice(self):
+        # mWh!
         r = self._GetResponse_(self.url + "price")
         y = json.loads(r.text)
+        if (y["unit"] != "EUR / MWh"):
+            raise DiffrentUnit(gotten=y["unit"], required="EUR / MWh")
         return y["price"]
-
+    def getPriceKWH(self):
+        returnValue = []
+        for index in self.getPrice():
+            returnValue.append(round(index / 10, 3))
+        return returnValue
+    
+class Tibber(Energy):
+    # class for Tibber
+    def __init__(self):
+        super().__init__()
+        # self.url = "https://******/"
+    
+    def getPriceKWH(self):
+        # r = self._GetResponse_(self.url + "price")
+        # y = json.loads(r.text)
+        
+        # TODO Import the values
+        # TODO Change the given value from decimal euro to whole ct
+        
+        print("[WARNING] The API calls for Tibber aren't implemented yet and thus are dummy values!")
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+        
 
 
