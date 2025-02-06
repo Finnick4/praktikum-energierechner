@@ -1,4 +1,4 @@
-import GetEnergy
+from GetEnergy import *
 import json
 
 x = GetEnergy.GetEnergyCharts()
@@ -8,3 +8,5 @@ print("Zeit\t| EnergyCharts Preis")
 for value in x["price"]:
     print(f"{count}\t| {value}")
     count += 1
+
+x = Energy()
