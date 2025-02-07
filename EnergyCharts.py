@@ -53,13 +53,3 @@ class Price(Energy):
     
 
     
-
-    """
-    def getPrice(self):
-        
-    def getPriceKWH(self):
-        returnValue = []
-        for index in self.getPrice():
-            returnValue.append(round(index / 10, 3))
-        return returnValue
-    """
