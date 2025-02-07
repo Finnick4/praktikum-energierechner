@@ -7,11 +7,13 @@ class Energy(ABC):
     def __init__(self):
         pass
     
-    def _GetResponse_(self, url):
+    def _getResponse_(self, url):
         r = requests.get(url)
+
         if (r.status_code != 200):
             raise BadResponse(r.status_code)
         return r
+    
             
 
     
@@ -27,7 +29,7 @@ class EnergyCharts(Energy):
     
     def getPrice(self):
         # mWh!
-        r = self._GetResponse_(self.url + "price")
+        r = self._getResponse_(self.url + "price")
         y = json.loads(r.text)
         if (y["unit"] != "EUR / MWh"):
             raise DiffrentUnit(gotten=y["unit"], required="EUR / MWh")
@@ -42,11 +44,31 @@ class Tibber(Energy):
     # class for Tibber
     def __init__(self):
         super().__init__()
-        # self.url = "https://******/"
+        # Get Token
+        
+        f = open("token.txt", "r")
+        self.__token__ = f.read()
+        f.close()
+        print(self.__token__)
+        
+        self.url = "https://api.tibber.com/v1-beta/gql/"
+    
+    def _getResponse_(self, url):
+        headers = {
+            "Authorization": "Bearer " + self.__token__,
+            "User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+        }
+        r = requests.get(url, headers=headers)
+
+        if (r.status_code != 200):
+            raise BadResponse(r.status_code)
+        return r
     
     def getPriceKWH(self):
-        # r = self._GetResponse_(self.url + "price")
-        # y = json.loads(r.text)
+        #r = self._getResponse_(self.url)
+        
+        #y = json.loads(r.text)
+        #print(y)
         
         # TODO Import the values
         # TODO Change the given value from decimal euro to whole ct

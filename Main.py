@@ -9,7 +9,7 @@ y = tib.getPriceKWH()
 
 
 # Depricated!
-print(datetime.datetime.now().hour)
+#print(datetime.datetime.now().hour)
 # Wichtig: Preis in Eur / MWh
 # currentPrice = x[datetime.datetime.now().hour - 1]
 
@@ -19,8 +19,9 @@ print(datetime.datetime.now().hour)
 # Depricated!  
 
 
-print("Zeit\t | EnergyCharts \t | Tibber \t | Differenz \t| in %")
+# Prints Table
+print("Zeit\t | EnergyCharts\t | Tibber \t | Differenz \t| in %")
 print("---\t | ----- \t | ----- \t | ----- \t | ---")
 for i in range(x.__len__()):
-    print(f"{i}\t | {x[i]}   \t |{y[i]}   ")
+    print(f"{i}\t | {x[i]}   \t | {y[i]}   ")
 
