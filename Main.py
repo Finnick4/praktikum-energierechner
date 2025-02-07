@@ -1,15 +1,13 @@
-import datetime
-from GetEnergy import *
+import EnergyCharts
 
-ec = EnergyCharts()
+price = EnergyCharts.Price()
 
-x = ec.getPriceKWH()
+x = price.getMetric()
 
 
 
 # Prints Table
-print("Zeit\t | EnergyCharts\t |")
+print("Time\t | EUR/MWh\t |")
 print("---\t | ----- \t |")
 for i in range(x.__len__()):
     print(f"{i}\t | {x[i]}   \t | ")
-
