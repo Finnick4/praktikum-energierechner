@@ -3,7 +3,7 @@ import json
 import time
 import requests
 from abc import ABC, abstractmethod
-from Exceptions import BadResponse, DiffrentUnit
+from Exceptions import BadResponse, DiffrentUnit, DiffrentTimestamp
 
 
 def getCurrentTimestamp():
@@ -11,7 +11,7 @@ def getCurrentTimestamp():
     returns the current UNIX timestamp
     """
     currentDate = datetime.datetime.now()
-    return time.mktime(currentDate.timetuple())
+    return int(time.mktime(currentDate.timetuple()))
 
 def __makeDayTimestamp__(ts):
     """
@@ -35,17 +35,16 @@ class Energy(ABC):
     
     def _getResponse_(self, suffix, time):
         time = __makeDayTimestamp__(time)
-        print(f"The data is aggregated from the timestamp {time}")
+        #print(f"The data is aggregated from the timestamp {time}")
 
-        payload = {
-            "start" : str(int(time)),
-            "end" : str(int(time + 86400)) 
-        }
-        r = requests.get(self.url + suffix, headers=payload)
+        r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + 86399)}")
 
         if (r.status_code != 200):
             raise BadResponse(r.status_code)
         y = json.loads(r.text)
+        if (y["unix_seconds"][0] != time):
+            raise DiffrentTimestamp(y["unix_seconds"][0])
+
         return y
     
     @abstractmethod
