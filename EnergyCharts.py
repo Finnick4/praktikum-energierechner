@@ -37,11 +37,7 @@ class Energy(ABC):
         time = __makeDayTimestamp__(time)
         print(f"The data is aggregated from the timestamp {time}")
 
-        payload = {
-            "start" : str(int(time)),
-            "end" : str(int(time + 86400)) 
-        }
-        r = requests.get(self.url + suffix, headers=payload)
+        r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + 86400)}")
 
         if (r.status_code != 200):
             raise BadResponse(r.status_code)
