@@ -11,7 +11,7 @@ def getCurrentTimestamp():
     returns the current UNIX timestamp
     """
     currentDate = datetime.datetime.now()
-    return time.mktime(currentDate.timetuple())
+    return int(time.mktime(currentDate.timetuple()))
 
 def __makeDayTimestamp__(ts):
     """
