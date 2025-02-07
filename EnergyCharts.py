@@ -3,7 +3,7 @@ import json
 import time
 import requests
 from abc import ABC, abstractmethod
-from Exceptions import BadResponse, DiffrentUnit
+from Exceptions import BadResponse, DiffrentUnit, DiffrentTimestamp
 
 
 def getCurrentTimestamp():
@@ -46,6 +46,9 @@ class Energy(ABC):
         if (r.status_code != 200):
             raise BadResponse(r.status_code)
         y = json.loads(r.text)
+        if (y["unix_seconds"][0] != time):
+            raise DiffrentTimestamp(y["unix_seconds"][0])
+
         return y
     
     @abstractmethod
