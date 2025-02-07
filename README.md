@@ -1,2 +1,4 @@
-# praktikum-energierechner
-Dies ist ein Repository für ein Projekt während meines Praktikums.
+# Energierechner
+Dies ist ein Projekt während meines Praktikums.
+
+Dieses Python Skript zeigt den stündlichen Börsenpreis als Tabelle an.
