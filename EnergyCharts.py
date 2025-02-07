@@ -35,9 +35,9 @@ class Energy(ABC):
     
     def _getResponse_(self, suffix, time):
         time = __makeDayTimestamp__(time)
-        print(f"The data is aggregated from the timestamp {time}")
+        #print(f"The data is aggregated from the timestamp {time}")
 
-        r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + 86400)}")
+        r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + 86399)}")
 
         if (r.status_code != 200):
             raise BadResponse(r.status_code)
