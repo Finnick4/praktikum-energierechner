@@ -3,20 +3,13 @@ from GetEnergy import *
 
 ec = EnergyCharts()
 
-x = ec.getPrice()
-print(datetime.datetime.now().hour)
+x = ec.getPriceKWH()
 
-# Wichtig: Preis in Eur / MWh
 
-currentPrice = x[datetime.datetime.now().hour - 1]
 
-if (currentPrice < 147):
-    print("Der Strom ist unter 147 EUR/MWh")
-    exit(1)
-
-count = 0
-print("Zeit\t| EnergyCharts Preis")
-for value in x:
-    print(f"{count}\t| {value}")
-    count += 1
+# Prints Table
+print("Zeit\t | EnergyCharts\t |")
+print("---\t | ----- \t |")
+for i in range(x.__len__()):
+    print(f"{i}\t | {x[i]}   \t | ")
 
