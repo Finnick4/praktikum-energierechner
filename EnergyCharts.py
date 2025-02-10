@@ -79,7 +79,7 @@ class Frequency(Energy):
         super().__init__()
         self.suffix = "frequency"
 
-    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp(), duration = "hour"):
+    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp(), duration = "minute"):
         """
         Gets the frequency of the German power grid
         from a timestamp for an hour if not specified otherwise.
@@ -89,7 +89,13 @@ class Frequency(Energy):
         (day), hour, minute, second\n\n
         !!! Currently still goes back to morning timestamp !!!
         """
-        timestamp = TimestampUtils.makeDayTimestamp(timestamp)
+        # check if timestamp passes current timestamp
+        # TODO add options for other timeframes than an hour
+        if (TimestampUtils.checkIfFuture(timestamp + 3599)):
+            print("As the given timestamp with the duration would be in the future, the timeframe starts in the morning of the day!")
+            # TODO Check if the then new timestamp would also be in the future
+            timestamp = TimestampUtils.makeDayTimestamp(timestamp)
+        
 
 
         r = self._getResponse_(self.suffix, timestamp, duration=duration)
