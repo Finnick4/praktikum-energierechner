@@ -42,7 +42,7 @@ freq = EnergyCharts.Frequency()
 ts = getWantedDate()
 
 x = price.getMetric(ts)
-y = freq.getMetric((ts - TimestampUtils.HOUR * 2), "minute")
+y = freq.getMetric(ts, "minute")
 
 
 # Prints Table

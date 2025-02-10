@@ -68,13 +68,21 @@ def askUsingDate():
         print("Can't build a date from that!")
         return askUsingDate()
     
-def checkIfFuture(ts):
+def checkIfFuture(ts, deductTwoHours = False):
     """
     Checks if a given timestamp is in the future.\n
-    Returns either true or false
+    Returns either true or false.
+    deductTwoHours tells if the given program should
+    take the current timestamp -2 hours as the current time.
+    This can be useful in cases where the data isn't directly 
+    available, but probably two hours ago. 
     """
-    if (ts > getCurrentTimestamp()):
+    print(f"Timestamp: {ts} current timestamp: {getCurrentTimestamp()} deduct: {deductTwoHours}")
+
+    if (ts > getCurrentTimestamp() - ((HOUR * 2) if deductTwoHours else 0)):
+        print("True")
         return True
     else:
+        print("False")
         return False
-    
+
