@@ -6,6 +6,27 @@ import time
 Utilities for working with UNIX timestamps in Python
 """
 
+SECOND = 0
+MINUTE = 60
+HOUR = 3600
+DAY = 86400
+
+def makeTimestampDelta(duration):
+    """
+    Duration has a few predefined values:
+        day, hour, minute, second
+    """
+    if (duration == "day"):
+        return DAY - 1
+    elif (duration == "hour"):
+        return HOUR - 1
+    elif (duration == "minute"):
+        return MINUTE - 1
+    elif (duration == "second"):
+        return SECOND - 1
+    else:
+        return int(duration) - 1
+
 
 def getCurrentTimestamp():
     """

@@ -17,21 +17,11 @@ class Energy(ABC):
     def _getResponse_(self, suffix, time, duration = "day"):
         """
         Gets a response from the API with the given SUFFIX from
-        the UNIX Timestamp TIME for a given duration.
-        Duration has a few predefined values:
-        day, hour, minute, second
+        the UNIX Timestamp TIME for a given duration (-> number of\n
+        values).
         """
         len = 0
-        if (duration == "day"):
-            len = 86399
-        elif (duration == "hour"):
-            len = 3599
-        elif (duration == "minute"):
-            len = 59
-        elif (duration == "second"):
-            len = 0
-        else:
-            len = int(duration)
+        len = TimestampUtils.makeTimestampDelta(duration)
 
         r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + len)}")
 
@@ -90,8 +80,7 @@ class Frequency(Energy):
         !!! Currently still goes back to morning timestamp !!!
         """
         # check if timestamp passes current timestamp
-        # TODO add options for other timeframes than an hour
-        if (TimestampUtils.checkIfFuture(timestamp + 3599)):
+        if (TimestampUtils.checkIfFuture(timestamp + TimestampUtils.makeTimestampDelta(duration))):
             print("As the given timestamp with the duration would be in the future, the timeframe starts in the morning of the day!")
             # TODO Check if the then new timestamp would also be in the future
             timestamp = TimestampUtils.makeDayTimestamp(timestamp)
