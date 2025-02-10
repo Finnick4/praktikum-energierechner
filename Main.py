@@ -1,6 +1,7 @@
 
 import EnergyCharts
 import TimestampUtils
+from Exceptions import BadResponse, ContentNotAvailable
 
 # import from Command line arguments
 
@@ -41,15 +42,23 @@ freq = EnergyCharts.Frequency()
 
 ts = getWantedDate()
 
-x = price.getMetric(ts)
+priceIsAvailable = True
+
+try:
+    x = price.getMetric(ts)
+except ContentNotAvailable:
+    print("Price info is not available for this timeframe!")
+    priceIsAvailable = False
+
 y = freq.getMetric(ts, "minute")
 
 
 # Prints Table
-print("Time\t | EUR/MWh\t |")
-print("---\t | ----- \t |")
-for i in range(x.__len__()):
-    print(f"{i}\t | {x[i]}   \t | ")
+if (priceIsAvailable):
+    print("Time\t | EUR/MWh\t |")
+    print("---\t | ----- \t |")
+    for i in range(x.__len__()):
+        print(f"{i}\t | {x[i]}   \t | ")
 
 
 print()

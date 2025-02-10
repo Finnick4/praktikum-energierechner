@@ -16,6 +16,10 @@ class DiffrentUnit(Exception):
     def __init__(self, required):
         super().__init__(f"Got a diffrent Unit than expected! The program wants: {required}")
 
+class ContentNotAvailable(Exception):
+    def __init__(self):
+        super().__init__("The wanted content is not available!")
+
 class DiffrentTimestamp(Exception):
     def __init__(self, ts):
         super().__init__(f"Got a diffrent timestamp back: {ts}")

@@ -1,7 +1,7 @@
 import json
 import requests
 from abc import ABC, abstractmethod
-from Exceptions import BadResponse, DiffrentUnit, DiffrentTimestamp
+from Exceptions import BadResponse, DiffrentUnit, DiffrentTimestamp, ContentNotAvailable
 import TimestampUtils
 
 
@@ -26,6 +26,8 @@ class Energy(ABC):
         r = requests.get(f"{self.url}{suffix}?bzn=DE-LU&start={int(time)}&end={int(time + len)}")
 
         if (r.status_code != 200):
+            if (r.status_code == 404):
+                raise ContentNotAvailable
             raise BadResponse(r.status_code)
         y = json.loads(r.text)
         if (y["unix_seconds"][0] != time):
