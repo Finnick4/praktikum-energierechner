@@ -52,13 +52,14 @@ def __getDate__():
 
 
 price = EnergyCharts.Price()
+freq = EnergyCharts.Frequency()
 
 # get the wanted date
 
 ts = getWantedDate()
 
 x = price.getMetric(ts)
-
+y = freq.getMetric(ts)
 
 
 # Prints Table
@@ -66,3 +67,7 @@ print("Time\t | EUR/MWh\t |")
 print("---\t | ----- \t |")
 for i in range(x.__len__()):
     print(f"{i}\t | {x[i]}   \t | ")
+
+print("Time\t | EUR/MWh\t |")
+for i in range(y.__len__()):
+    print(f"{i}\t | {y[i]}   \t | ")

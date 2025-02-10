@@ -61,11 +61,20 @@ class Price(Energy):
         self.suffix = "price"
 
     def getMetric(self, timestamp=getCurrentTimestamp()):
-        r = self._getResponse_("price", timestamp)
+        r = self._getResponse_(self.suffix, timestamp)
         
         if (r["unit"] != "EUR / MWh"):
             raise DiffrentUnit(gotten=r["unit"], required="EUR / MWh")
         return r["price"]
     
+class Frequency(Energy):
+    def __init__(self):
+        super().__init__()
+        self.suffix = "frequency"
+
+    def getMetric(self, timestamp=getCurrentTimestamp()):
+        r = self._getResponse_(self.suffix, timestamp)
+        
+        return r["data"]
 
     
