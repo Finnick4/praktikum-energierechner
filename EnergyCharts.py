@@ -84,6 +84,9 @@ class Frequency(Energy):
             print("As the given timestamp with the duration would be in the future, the timeframe starts in the morning of the day!")
             # TODO Check if the then new timestamp would also be in the future
             timestamp = TimestampUtils.makeDayTimestamp(timestamp)
+            if (TimestampUtils.checkIfFuture(timestamp + TimestampUtils.makeTimestampDelta(duration))):
+                print("As the new timeframe would also be in the future, the request will only go to the current timestamp!")
+                duration = TimestampUtils.getCurrentTimestamp() - timestamp
         
 
 

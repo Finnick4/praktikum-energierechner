@@ -25,7 +25,7 @@ def makeTimestampDelta(duration):
     elif (duration == "second"):
         return SECOND - 1
     else:
-        return int(duration) - 1
+        return int(duration)
 
 
 def getCurrentTimestamp():
