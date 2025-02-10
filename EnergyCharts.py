@@ -1,30 +1,11 @@
-import datetime
 import json
-import time
 import requests
 from abc import ABC, abstractmethod
 from Exceptions import BadResponse, DiffrentUnit, DiffrentTimestamp
+import TimestampUtils
 
 
-def getCurrentTimestamp():
-    """
-    returns the current UNIX timestamp
-    """
-    currentDate = datetime.datetime.now()
-    return int(time.mktime(currentDate.timetuple()))
 
-def __makeDayTimestamp__(ts):
-    """
-    ts -> Timestamp in UNIX Time
-
-    converts the timestamp into another timestamp of the beginning of the day
-    Meaning a timestamp from 12:34:56  would turn into 00:00:00
-    whilest remaining the current date
-    """
-    date = datetime.datetime.fromtimestamp(ts)
-    dayStart = datetime.datetime(date.year, date.month, date.day)
-    timestamp = time.mktime(dayStart.timetuple())
-    return timestamp
 
 class Energy(ABC):
     # class for Energy Charts
@@ -75,7 +56,7 @@ class Price(Energy):
         super().__init__()
         self.suffix = "price"
 
-    def getMetric(self, timestamp=getCurrentTimestamp()):
+    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp()):
         """
         Gets the price for one MWh of power in euro
         on the german stock exchange from a timestamp for a day.
@@ -86,7 +67,7 @@ class Price(Energy):
         the prices for each hour of the day.
         """
         
-        timestamp = __makeDayTimestamp__(timestamp)
+        timestamp = TimestampUtils.makeDayTimestamp(timestamp)
         r = self._getResponse_(self.suffix, timestamp)
         
         if (r["unit"] != "EUR / MWh"):
@@ -98,7 +79,7 @@ class Frequency(Energy):
         super().__init__()
         self.suffix = "frequency"
 
-    def getMetric(self, timestamp=getCurrentTimestamp(), duration = "hour"):
+    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp(), duration = "hour"):
         """
         Gets the frequency of the German power grid
         from a timestamp for an hour if not specified otherwise.
@@ -108,7 +89,7 @@ class Frequency(Energy):
         (day), hour, minute, second\n\n
         !!! Currently still goes back to morning timestamp !!!
         """
-        timestamp = __makeDayTimestamp__(timestamp)
+        timestamp = TimestampUtils.makeDayTimestamp(timestamp)
 
 
         r = self._getResponse_(self.suffix, timestamp, duration=duration)

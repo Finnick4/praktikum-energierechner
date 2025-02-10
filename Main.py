@@ -1,6 +1,7 @@
 import datetime
 import time
 import EnergyCharts
+import TimestampUtils
 
 # import from Command line arguments
 
@@ -11,7 +12,7 @@ def getWantedDate():
         x = input("Do you want to use today's time?\n")
         x.lower()
         if (x == "yes" or x == "y"):
-            return EnergyCharts.getCurrentTimestamp()
+            return TimestampUtils.getCurrentTimestamp()
         elif(x == "no" or x == "n"):
             break
         else:
@@ -33,7 +34,7 @@ def getWantedDate():
             x = ""
 def __getUnixTimestamp__():
     ts = int(input("Please input the UNIX timestamp!\n"))
-    if (ts <= 0 or ts > EnergyCharts.getCurrentTimestamp()):
+    if (ts <= 0 or ts > TimestampUtils.getCurrentTimestamp()):
         return __getUnixTimestamp__()
     return ts
 def __getDate__():
