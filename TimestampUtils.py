@@ -46,3 +46,14 @@ def askUsingDate():
     except:
         print("Can't build a date from that!")
         return askUsingDate()
+    
+def checkIfFuture(ts):
+    """
+    Checks if a given timestamp is in the future.\n
+    Returns either true or false
+    """
+    if (ts > getCurrentTimestamp()):
+        return True
+    else:
+        return False
+    
