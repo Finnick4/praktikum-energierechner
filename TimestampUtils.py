@@ -46,13 +46,13 @@ def makeDayTimestamp(ts):
     date = datetime.datetime.fromtimestamp(ts)
     dayStart = datetime.datetime(date.year, date.month, date.day)
     timestamp = time.mktime(dayStart.timetuple())
-    return timestamp
+    return int(timestamp)
 
 def askUnixTimestamp():
     ts = int(input("Please input a UNIX timestamp!\n"))
     if (ts <= 0 or ts > getCurrentTimestamp()):
         return askUnixTimestamp()
-    return ts
+    return int(ts)
 
 def askUsingDate():
     year = int(input("Input the year: "))
@@ -62,8 +62,8 @@ def askUsingDate():
     try:
         date = datetime.datetime(year, month, day)
         ts = int(time.mktime(date.timetuple()))
-        print(ts)
-        return ts
+    
+        return int(ts)
     except:
         print("Can't build a date from that!")
         return askUsingDate()
