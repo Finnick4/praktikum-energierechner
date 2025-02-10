@@ -55,14 +55,14 @@ y = freq.getMetric(ts, "minute")
 
 # Prints Table
 if (priceIsAvailable):
-    print("Time\t | EUR/MWh\t |")
+    print("Time\t | EUR/MWh\t | UNIX Timestamp")
     print("---\t | ----- \t |")
     for i in range(x.__len__()):
-        print(f"{i}\t | {x[i]}   \t | ")
+        print(f"{i}\t | {x[i]}   \t | {ts + (i * TimestampUtils.HOUR)}")
 
 
 print()
 
 print("Time\t | Hz\t\t |")
 for i in range(y.__len__()):
-    print(f"{i}\t | {y[i]}   \t | ")
+    print(f"{i}\t | {y[i]}   \t | {ts + (i * TimestampUtils.SECOND)}")
