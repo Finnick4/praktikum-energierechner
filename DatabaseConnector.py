@@ -4,7 +4,6 @@ from abc import ABC
 
 
 class db(ABC):
-    # !!! Currently only for price !!!
     def __init__(self):
         self.__db__ = mysql.connector.connect(
             host="localhost",
