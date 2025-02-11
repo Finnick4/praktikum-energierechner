@@ -1,7 +1,7 @@
 
 import EnergyCharts
 import TimestampUtils
-from Exceptions import BadResponse, ContentNotAvailable
+from Exceptions import ContentNotAvailable
 import DatabaseConnector
 from sys import argv
 
@@ -37,7 +37,7 @@ except ContentNotAvailable:
 
 try:
     y = freq.getMetric(ts, "day")
-except:
+except ContentNotAvailable:
     print("Frequency info is not available for this timeframe!")
     freqIsAvailable = False
 

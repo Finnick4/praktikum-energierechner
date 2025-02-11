@@ -43,6 +43,7 @@ freq = EnergyCharts.Frequency()
 ts = getWantedDate()
 
 priceIsAvailable = True
+freqIsAvailable = True
 
 try:
     x = price.getMetric(ts)
@@ -50,24 +51,28 @@ except ContentNotAvailable:
     print("Price info is not available for this timeframe!")
     priceIsAvailable = False
 
-y = freq.getMetric(ts, "minute")
-
+try:
+    y = freq.getMetric(ts, "minute")
+except ContentNotAvailable:
+    print("Frequency info is not available for this timeframe!")
+    priceIsAvailable = False
 
 
 
 # Prints Table
 if (priceIsAvailable):
     dayTimestamp = TimestampUtils.makeDayTimestamp(ts)
-    print("Time\t | EUR/MWh\t | UNIX Timestamp")
-    print("---\t | ----- \t |")
+    print("Time\t | EUR/MWh\t | UNIX timestamp")
+    print("---\t | ----- \t | -----")
     for i in range(x.__len__()):
         print(f"{i}\t | {x[i]}   \t | {dayTimestamp + (i * TimestampUtils.HOUR)}")
     
 
 
 print()
-
-print("Time\t | Hz\t\t |")
-for i in range(y.__len__()):
-    print(f"{i}\t | {y[i]}   \t | {ts + (i * TimestampUtils.SECOND)}")
+if (freqIsAvailable):
+    print("Time\t | Hz\t\t | UNIX timestamp")
+    print("---\t | ----- \t | -----")
+    for i in range(y.__len__()):
+        print(f"{i}\t | {y[i]}   \t | {ts + (i * TimestampUtils.SECOND)}")
 
