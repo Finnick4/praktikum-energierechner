@@ -22,7 +22,7 @@ class db(ABC):
     
     def sendStack(self):
         #print(self._sql_, self.__stack__)
-        self.__cursor__.executemany(self.__sql__, self.__stack__)
+        self.__cursor__.executemany(self._sql_, self.__stack__)
 
 
 
