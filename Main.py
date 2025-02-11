@@ -2,6 +2,7 @@
 import EnergyCharts
 import TimestampUtils
 from Exceptions import BadResponse, ContentNotAvailable
+import DatabaseConnector
 
 # import from Command line arguments
 
@@ -53,13 +54,21 @@ except ContentNotAvailable:
 y = freq.getMetric(ts, "minute")
 
 
+# Database connection
+priceDB = DatabaseConnector.db()
+
+
 # Prints Table
 if (priceIsAvailable):
+    dayTimestamp = TimestampUtils.makeDayTimestamp(ts)
     print("Time\t | EUR/MWh\t | UNIX Timestamp")
     print("---\t | ----- \t |")
     for i in range(x.__len__()):
-        print(f"{i}\t | {x[i]}   \t | {ts + (i * TimestampUtils.HOUR)}")
+        print(f"{i}\t | {x[i]}   \t | {dayTimestamp + (i * TimestampUtils.HOUR)}")
+        priceTimestamp = (dayTimestamp + (i * TimestampUtils.HOUR), x[i])
+        priceDB.addToStack(priceTimestamp)
 
+priceDB.sendStack()
 
 print()
 
