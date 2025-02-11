@@ -77,12 +77,9 @@ def checkIfFuture(ts, deductTwoHours = False):
     This can be useful in cases where the data isn't directly 
     available, but probably two hours ago. 
     """
-    print(f"Timestamp: {ts} current timestamp: {getCurrentTimestamp()} deduct: {deductTwoHours}")
 
     if (ts > getCurrentTimestamp() - ((HOUR * 2) if deductTwoHours else 0)):
-        print("True")
         return True
     else:
-        print("False")
         return False
 
