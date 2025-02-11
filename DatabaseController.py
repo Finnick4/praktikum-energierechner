@@ -61,6 +61,3 @@ if (freqIsAvailable):
         freqDB.addToStack(freqTimestamp)
     freqDB.sendStack()
 
-
-print(f"Number of prices: {x.__len__()}")
-print(f"Number of freqs: {y.__len__()}")
