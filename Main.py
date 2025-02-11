@@ -1,6 +1,7 @@
-import datetime
-import time
+
 import EnergyCharts
+import TimestampUtils
+from Exceptions import ContentNotAvailable
 
 # import from Command line arguments
 
@@ -11,7 +12,7 @@ def getWantedDate():
         x = input("Do you want to use today's time?\n")
         x.lower()
         if (x == "yes" or x == "y"):
-            return EnergyCharts.getCurrentTimestamp()
+            return TimestampUtils.getCurrentTimestamp()
         elif(x == "no" or x == "n"):
             break
         else:
@@ -24,45 +25,54 @@ def getWantedDate():
         x = input("How do you want the time to be inputed (UNIX / DATE)?\n")
         x.lower()
         if (x == "u" or x == "unix"):
-            return __getUnixTimestamp__()
+            return TimestampUtils.askUnixTimestamp()
         elif(x == "date" or x == "d"):
-            return __getDate__()
+            return TimestampUtils.askUsingDate()
         else:
             print("Could not interprete your response! Use one of the following:\n'd' 'date' 'u' 'unix'")
             print(f"You used the following: '{x}'")
             x = ""
-def __getUnixTimestamp__():
-    ts = int(input("Please input the UNIX timestamp!\n"))
-    if (ts <= 0 or ts > EnergyCharts.getCurrentTimestamp()):
-        return __getUnixTimestamp__()
-    return ts
-def __getDate__():
-    year = int(input("Input the year: "))
-    month = int(input("Input the month (1-12): "))
-    day = int(input("Input the day (1-31): "))
 
-    try:
-        date = datetime.datetime(year, month, day)
-        ts = int(time.mktime(date.timetuple()))
-        print(ts)
-        return ts
-    except:
-        print("Can't build a date from that!")
-        return __getDate__()
 
 
 price = EnergyCharts.Price()
+freq = EnergyCharts.Frequency()
 
 # get the wanted date
 
 ts = getWantedDate()
 
-x = price.getMetric(ts)
+priceIsAvailable = True
+freqIsAvailable = True
+
+try:
+    x = price.getMetric(ts)
+except ContentNotAvailable:
+    print("Price info is not available for this timeframe!")
+    priceIsAvailable = False
+
+try:
+    y = freq.getMetric(ts, "minute")
+except ContentNotAvailable:
+    print("Frequency info is not available for this timeframe!")
+    priceIsAvailable = False
 
 
 
 # Prints Table
-print("Time\t | EUR/MWh\t |")
-print("---\t | ----- \t |")
-for i in range(x.__len__()):
-    print(f"{i}\t | {x[i]}   \t | ")
+if (priceIsAvailable):
+    dayTimestamp = TimestampUtils.makeDayTimestamp(ts)
+    print("Time\t | EUR/MWh\t | UNIX timestamp")
+    print("---\t | ----- \t | -----")
+    for i in range(x.__len__()):
+        print(f"{i}\t | {x[i]}   \t | {dayTimestamp + (i * TimestampUtils.HOUR)}")
+    
+
+
+print()
+if (freqIsAvailable):
+    print("Time\t | Hz\t\t | UNIX timestamp")
+    print("---\t | ----- \t | -----")
+    for i in range(y.__len__()):
+        print(f"{i}\t | {y[i]}   \t | {ts + (i * TimestampUtils.SECOND)}")
+
