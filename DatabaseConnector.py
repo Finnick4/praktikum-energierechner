@@ -36,4 +36,4 @@ class priceDB(db):
 class freqDB(db):
     def __init__(self):
         super().__init__()
-        self._sql_ = "INSERT INTO frequency (epoch, eur) VALUES (%s, %s)"
+        self._sql_ = "INSERT INTO frequency (epoch, hz) VALUES (%s, %s)"
