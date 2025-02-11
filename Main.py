@@ -55,7 +55,8 @@ y = freq.getMetric(ts, "minute")
 
 
 # Database connection
-priceDB = DatabaseConnector.db()
+priceDB = DatabaseConnector.priceDB()
+freqDB = DatabaseConnector.freqDB()
 
 
 # Prints Table
@@ -68,10 +69,15 @@ if (priceIsAvailable):
         priceTimestamp = (dayTimestamp + (i * TimestampUtils.HOUR), x[i])
         priceDB.addToStack(priceTimestamp)
 
-priceDB.sendStack()
 
 print()
 
 print("Time\t | Hz\t\t |")
 for i in range(y.__len__()):
     print(f"{i}\t | {y[i]}   \t | {ts + (i * TimestampUtils.SECOND)}")
+    freqTimestamp = (ts + (i * TimestampUtils.SECOND), y[i])
+    freqDB.addToStack(freqTimestamp)
+
+
+priceDB.sendStack()
+freqDB.sendStack()

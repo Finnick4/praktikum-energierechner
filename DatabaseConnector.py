@@ -1,8 +1,9 @@
 import mysql.connector
 import dotenv 
+from abc import ABC, abstractmethod
 
 
-class db:
+class db(ABC):
     # !!! Currently only for price !!!
     def __init__(self):
         __env__ = dotenv.DotEnv()
@@ -13,7 +14,7 @@ class db:
             database=__env__.get("DATABASE")
         )"""
 
-        self.__sql__ = f"INSERT INTO price (epoch, eur) VALUES (%s, %s)"
+        self._sql_ = ""
         self.__stack__ = []
         # self.__cursor__ = self.__db__.cursor()
 
@@ -23,7 +24,15 @@ class db:
         self.__stack__.append(toAdd)
     
     def sendStack(self):
-        print(self.__sql__, self.__stack__)
+        print(self._sql_, self.__stack__)
         #self.__cursor__.executemany(self.__sql__, self.__stack__)
 
+class priceDB(db):
+    def __init__(self):
+        super().__init__()
+        self._sql_ = "INSERT INTO price (epoch, eur) VALUES (%s, %s)"
 
+class freqDB(db):
+    def __init__(self):
+        super().__init__()
+        self._sql_ = "INSERT INTO frequency (epoch, eur) VALUES (%s, %s)"
