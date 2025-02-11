@@ -48,7 +48,7 @@ class Price(Energy):
         super().__init__()
         self.suffix = "price"
 
-    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp()):
+    def getMetric(self, timestamp=TimestampUtils.getCurrentTimestamp(), endTimestamp=None):
         """
         Gets the price for one MWh of power in euro
         on the german stock exchange from a timestamp for a day.
@@ -78,8 +78,7 @@ class Frequency(Energy):
         If no UNIX Timestamp is inserted in TIMESTAMP,
         the start of the morning is taken!
         Duration has a few predefined values:
-        (day), hour, minute, second\n\n
-        !!! Currently still goes back to morning timestamp !!!
+        (day), hour, minute, second!
         """
         # check if timestamp passes current timestamp
         if (TimestampUtils.checkIfFuture(timestamp + TimestampUtils.makeTimestampDelta(duration), deductTwoHours=True)):
