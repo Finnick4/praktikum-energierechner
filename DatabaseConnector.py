@@ -18,6 +18,9 @@ class db(ABC):
 
     def addToStack(self, toAdd):
         """Adds a touple to the stack to be send when the next sendStack() is called"""
+        if (toAdd[1] == None):
+            print(f"{toAdd} was not added to the stack as it is null!")
+            return
         self.__stack__.append(toAdd)
     
     def sendStack(self):
